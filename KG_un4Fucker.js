@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         un4Fucker
 // @namespace    https://#
-// @version      0.2
+// @version      0.3
 // @description  Let this guy suffer!
 // @author       Puncher
 // @match        http*://klavogonki.ru/g*
