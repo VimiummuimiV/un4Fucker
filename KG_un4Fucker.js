@@ -12,8 +12,8 @@
 var sentences;
 var sentence;
 var milliseconds;
-var input = document.querySelector('.text');
-var send = document.querySelector('.send');
+var field = document.querySelector('.text');
+var inject = document.querySelector('.send');
 
 // All the sentences what you need to send in chat
 (async() => {
@@ -26,8 +26,8 @@ var send = document.querySelector('.send');
 // Do all necessary stuff
 function initialize() {
     sentence = `un4given, ${sentences[Math.floor(Math.random() * sentences.length)]}`;
-    input.value = sentence;
-    send.click();
+    field.value = sentence;
+    inject.click();
 };
 
 // Repeat with interval initialize function
