@@ -26,9 +26,8 @@ var send = document.querySelector('.send');
 // Do all necessary stuff
 function initialize() {
     sentence = `un4given, ${sentences[Math.floor(Math.random() * sentences.length)]}`;
-    // input.value = `un3given, ${sentence}`;
-    // send.click();
-    console.log(sentence);
+    input.value = sentence;
+    send.click();
 };
 
 // Repeat with interval initialize function
