@@ -88,4 +88,4 @@ window.bindTimeout(function (ms) {
     indicator.innerText = seconds;
 }, 1000);
 // Show what sentence will be sended in console
-window.setTimeout('', milliseconds);
+window.setTimeout(function(){}, milliseconds);
