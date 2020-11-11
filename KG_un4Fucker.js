@@ -32,7 +32,7 @@ function initialize() {
 
 // Repeat with interval initialize function
 (function loop() {
-    milliseconds = Math.round(Math.random() * (360000 - 500)) + 500;
+    milliseconds = Math.round(Math.random() * (800000 - 500)) + 500;
     setTimeout(function() {
         initialize();
         loop();
