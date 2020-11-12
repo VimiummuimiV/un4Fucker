@@ -41,7 +41,8 @@ function initialize() {
 (function loop() {
     milliseconds = Math.round(Math.random() * (800000 - 500)) + 500;
     setTimeout(function() {
-            if (pereborich || snowman || chihuahua || danieli) {
+            // Don't run if moderator in chat or badass is absent
+            if (pereborich || snowman || chihuahua || danieli || un4given == null) {
                void(0); // Do nothing 
             } else {
                 initialize();
