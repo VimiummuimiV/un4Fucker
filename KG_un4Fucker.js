@@ -8,21 +8,31 @@
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
 
-// Some global variables
+// Global dynamical variables
 var sentences;
 var sentence;
 var milliseconds;
+var user;
+var pereborich;
+var snowman;
+var chihuahua;
+var danieli;
+var danger;
+// Global constant variables
 var field = document.querySelector('.text');
 var inject = document.querySelector('.send');
-// Pay attention
-var un4given = document.querySelector('.userlist-content .user111001');
-// Be aware
-var pereborich = document.querySelector('.userlist-content .user123190');
-var snowman = document.querySelector('.userlist-content .user150888');
-var chihuahua = document.querySelector('.userlist-content .user520723');
-var danieli = document.querySelector('.userlist-content .user474104');
-// For condition
-var danger = pereborich || snowman || chihuahua || danieli;
+
+setInterval(function(){
+    // Pay attention
+    user = document.querySelector('.userlist-content .user111001');
+    // Be aware
+    pereborich = document.querySelector('.userlist-content .user123190');
+    snowman = document.querySelector('.userlist-content .user150888');
+    chihuahua = document.querySelector('.userlist-content .user520723');
+    danieli = document.querySelector('.userlist-content .user474104');
+    // For condition
+    danger = pereborich || snowman || chihuahua || danieli;
+},1000);
 
 // All the sentences what you need to send in chat
 (async() => {
@@ -32,9 +42,13 @@ var danger = pereborich || snowman || chihuahua || danieli;
     sentences = data.split("\n");
 })();
 
+function newFunction(user) {
+    console.log(user == null);
+}
+
 // Do all necessary stuff
 function initialize() {
-    sentence = `un4given, ${sentences[Math.floor(Math.random() * sentences.length)]}`;
+    sentence = `user, ${sentences[Math.floor(Math.random() * sentences.length)]}`;
     field.value = sentence;
     inject.click();
 };
@@ -44,7 +58,7 @@ function initialize() {
     milliseconds = Math.round(Math.random() * (800000 - 500)) + 500;
     setTimeout(function() {
             // Don't run if moderator in chat or badass is absent
-            if (danger || un4given == null) {
+            if (danger || user == null) {
                void(0); // Do nothing 
             } else {
                 initialize();
@@ -98,10 +112,10 @@ window.bindTimeout = function (listener, interval) {
 }());
 // Show how much seconds left
 window.bindTimeout(function (ms) {
-    if (danger !== null) {
+    if (danger) {
         indicator.innerText = '🛡️';
     }
-    else if (un4given == null) {
+    else if (user == null) {
         indicator.innerText = '😞';
     }
     else {
