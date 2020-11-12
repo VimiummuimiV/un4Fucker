@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         un4Fucker
 // @namespace    https://#
-// @version      0.4
+// @version      0.5
 // @description  Let this guy suffer!
 // @author       Puncher
 // @match        http*://klavogonki.ru/g*
@@ -14,6 +14,13 @@ var sentence;
 var milliseconds;
 var field = document.querySelector('.text');
 var inject = document.querySelector('.send');
+// Pay attention
+var un4given = document.querySelector('.userlist-content .user111001');
+// Be aware
+var pereborich = document.querySelector('.userlist-content .user123190');
+var snowman = document.querySelector('.userlist-content .user150888');
+var chihuahua = document.querySelector('.userlist-content .user520723');
+var danieli = document.querySelector('.userlist-content .user474104');
 
 // All the sentences what you need to send in chat
 (async() => {
@@ -34,7 +41,11 @@ function initialize() {
 (function loop() {
     milliseconds = Math.round(Math.random() * (800000 - 500)) + 500;
     setTimeout(function() {
-        initialize();
+            if (pereborich || snowman || chihuahua || danieli) {
+               void(0); // Do nothing 
+            } else {
+                initialize();
+            }
         loop();
     }, milliseconds);
 }());
