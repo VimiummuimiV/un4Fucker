@@ -21,6 +21,8 @@ var pereborich = document.querySelector('.userlist-content .user123190');
 var snowman = document.querySelector('.userlist-content .user150888');
 var chihuahua = document.querySelector('.userlist-content .user520723');
 var danieli = document.querySelector('.userlist-content .user474104');
+// For condition
+var danger = pereborich || snowman || chihuahua || danieli;
 
 // All the sentences what you need to send in chat
 (async() => {
@@ -42,7 +44,7 @@ function initialize() {
     milliseconds = Math.round(Math.random() * (800000 - 500)) + 500;
     setTimeout(function() {
             // Don't run if moderator in chat or badass is absent
-            if (pereborich || snowman || chihuahua || danieli || un4given == null) {
+            if (danger || un4given == null) {
                void(0); // Do nothing 
             } else {
                 initialize();
@@ -96,8 +98,16 @@ window.bindTimeout = function (listener, interval) {
 }());
 // Show how much seconds left
 window.bindTimeout(function (ms) {
-    var seconds = Math.floor((ms % (100000 * 60)) / 1000);
-    indicator.innerText = seconds;
+    if (danger !== null) {
+        indicator.innerText = '🛡️';
+    }
+    else if (un4given == null) {
+        indicator.innerText = '😞';
+    }
+    else {
+        var seconds = Math.floor((ms % (100000 * 60)) / 1000);
+        indicator.innerText = seconds;
+    }
 }, 1000);
 // Show what sentence will be sended in console
 window.setTimeout(function(){}, milliseconds);
