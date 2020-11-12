@@ -48,7 +48,7 @@ function newFunction(user) {
 
 // Do all necessary stuff
 function initialize() {
-    sentence = `user, ${sentences[Math.floor(Math.random() * sentences.length)]}`;
+    sentence = `un4given, ${sentences[Math.floor(Math.random() * sentences.length)]}`;
     field.value = sentence;
     inject.click();
 };
