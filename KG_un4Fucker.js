@@ -21,6 +21,10 @@ var danger;
 // Global constant variables
 var field = document.querySelector('.text');
 var inject = document.querySelector('.send');
+// Randomize seconds
+function generateRandomInteger(min, max) {
+    return Math.floor(min + Math.random()*(max + 1 - min))
+}
 
 setInterval(function(){
     // Pay attention
@@ -41,20 +45,16 @@ setInterval(function(){
     sentences = data.split("\n");
 })();
 
-function newFunction(user) {
-    console.log(user == null);
-}
-
 // Do all necessary stuff
 function initialize() {
     sentence = `un4given, ${sentences[Math.floor(Math.random() * sentences.length)]}`;
-    field.value = sentence;
+    field.value = sentence.toLowerCase();
     inject.click();
 };
 
 // Repeat with interval initialize function
 (function loop() {
-    milliseconds = Math.round(Math.random() * (800000 - 500)) + 500;
+    milliseconds = generateRandomInteger(500000, 800000);
     setTimeout(function() {
             // Don't run if moderator in chat or badass is absent
             if (danger || user == null) {
