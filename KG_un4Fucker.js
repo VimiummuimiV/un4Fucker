@@ -28,10 +28,9 @@ setInterval(function(){
     // Be aware
     pereborich = document.querySelector('.userlist-content .user123190');
     snowman = document.querySelector('.userlist-content .user150888');
-    chihuahua = document.querySelector('.userlist-content .user520723');
     danieli = document.querySelector('.userlist-content .user474104');
     // For condition
-    danger = pereborich || snowman || chihuahua || danieli;
+    danger = pereborich || snowman || danieli;
 },1000);
 
 // All the sentences what you need to send in chat
