@@ -57,9 +57,8 @@ var oneRepeatSentence = shuffle(sentences);
 // Do all necessary stuff
 function initialize() {
     sentence = `un4given, ${sentences[Math.floor(Math.random() * sentences.length)]}`;
-    // field.value = oneRepeatSentence.next().value.toLowerCase();
-    // inject.click();
-    console.log(oneRepeatSentence.next().value.toLowerCase());
+    field.value = oneRepeatSentence.next().value.toLowerCase()
+    inject.click();
 };
 
 // Repeat with interval initialize function
