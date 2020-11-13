@@ -49,7 +49,7 @@ function* shuffle(array) {
         yield sentences.splice(Math.floor(Math.random() * (i+1)), 1)[0];
     }
 }
-
+// Random sentence with no repeat
 var oneRepeatSentence = shuffle(sentences);
 
 // Inject sentence in chat
