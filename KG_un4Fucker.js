@@ -10,7 +10,6 @@
 
 // Global dynamical variables
 var sentences;
-var sentence;
 var milliseconds;
 var user;
 var pereborich;
@@ -25,7 +24,7 @@ var inject = document.querySelector('.send');
 function generateRandomInteger(min, max) {
     return Math.floor(min + Math.random()*(max + 1 - min))
 }
-
+// Update every second users availability in chat list
 setInterval(function(){
     // Pay attention
     user = document.querySelector('.userlist-content .user111001');
@@ -35,16 +34,15 @@ setInterval(function(){
     danieli = document.querySelector('.userlist-content .user474104');
     // For condition
     danger = pereborich || snowman || danieli;
-},1000);
-
-// All the sentences what you need to send in chat
+}, 1000);
+// Get sentences database from github txt file
 (async() => {
     var url = 'https://raw.githubusercontent.com/VimiummuimiV/TXT_FILES/main/KG_Sentences.txt';
     var response = await fetch(url);
     var data = await response.text();
     sentences = data.split("\n");
 })();
-// Randomize sentence index from data base with repeat no more than 1
+// Randomize sentences array index from database with repeat no more than 1
 function* shuffle(array) {
     var i = sentences.length;
     while (i--) {
@@ -54,10 +52,9 @@ function* shuffle(array) {
 
 var oneRepeatSentence = shuffle(sentences);
 
-// Do all necessary stuff
+// Inject sentence in chat
 function initialize() {
-    sentence = `un4given, ${sentences[Math.floor(Math.random() * sentences.length)]}`;
-    field.value = oneRepeatSentence.next().value.toLowerCase()
+    field.value = `un4given + ${oneRepeatSentence.next().value.toLowerCase()}`;
     inject.click();
 };
 
