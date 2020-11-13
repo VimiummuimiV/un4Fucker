@@ -44,17 +44,27 @@ setInterval(function(){
     var data = await response.text();
     sentences = data.split("\n");
 })();
+// Randomize sentence index from data base with repeat no more than 1
+function* shuffle(array) {
+    var i = sentences.length;
+    while (i--) {
+        yield sentences.splice(Math.floor(Math.random() * (i+1)), 1)[0];
+    }
+}
+
+var oneRepeatSentence = shuffle(sentences);
 
 // Do all necessary stuff
 function initialize() {
     sentence = `un4given, ${sentences[Math.floor(Math.random() * sentences.length)]}`;
-    field.value = sentence.toLowerCase();
-    inject.click();
+    // field.value = oneRepeatSentence.next().value.toLowerCase();
+    // inject.click();
+    console.log(oneRepeatSentence.next().value.toLowerCase());
 };
 
 // Repeat with interval initialize function
 (function loop() {
-    milliseconds = generateRandomInteger(500000, 800000);
+    milliseconds = generateRandomInteger(400000, 600000);
     setTimeout(function() {
             // Don't run if moderator in chat or badass is absent
             if (danger || user == null) {
