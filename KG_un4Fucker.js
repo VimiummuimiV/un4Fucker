@@ -35,7 +35,6 @@ var milliseconds;
 var user;
 var pereborich;
 var snowman;
-var chihuahua;
 var danieli;
 var danger;
 // Global constant variables
