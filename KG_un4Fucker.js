@@ -94,7 +94,7 @@ function initialize() {
 // Repeat with interval initialize function
 (function loop() {
     sentence = oneRepeatSentence.next().value.toLowerCase();
-    nextSentence.innerText = sentence;
+    nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
     milliseconds = generateRandomInteger(400000, 600000);
     setTimeout(function () {
         // Don't run if moderator in chat or badass is absent
