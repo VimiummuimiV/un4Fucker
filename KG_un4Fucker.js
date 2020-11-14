@@ -18,6 +18,35 @@ var sentence;
     sentences = data.split("\n");
 })();
 
+// Creating Indicator
+var chatPanel = document.querySelector('.dummy');
+var indicator = chatPanel.appendChild(document.createElement('p'));
+indicator.innerText = '--';
+var nextSentence = chatPanel.appendChild(document.createElement('p'));
+
+indicator.style.cssText =
+    'display: flex;' +
+    'height: 16px;' +
+    'width: 32px;' +
+    'background: #213434;' +
+    'justify-content: center;' +
+    'position: absolute;' +
+    'top: 0;' +
+    'right: 105px;' +
+    'align-items: center;' +
+    'font: 12px Consolas;' +
+    'border: 1px solid burlywood;' +
+    'color: burlywood;' +
+    'z-index: 1;';
+
+nextSentence.style.cssText =
+    'display: block;' +
+    'position: absolute;' +
+    'font-size: 10px;' +
+    'top: 2px;' +
+    'color: gray;' +
+    'left: 100px;';
+
 setTimeout(() => {
 
 // Random sentence with no repeat
@@ -55,34 +84,6 @@ setInterval(function () {
     // For condition
     danger = pereborich || snowman || danieli;
 }, 1000);
-
-// Creating Indicator
-var chatPanel = document.querySelector('.dummy');
-var indicator = chatPanel.appendChild(document.createElement('p'));
-var nextSentence = chatPanel.appendChild(document.createElement('p'));
-
-indicator.style.cssText =
-    'display: flex;' +
-    'height: 16px;' +
-    'width: 32px;' +
-    'background: #213434;' +
-    'justify-content: center;' +
-    'position: absolute;' +
-    'top: 0;' +
-    'right: 105px;' +
-    'align-items: center;' +
-    'font: 12px Consolas;' +
-    'border: 1px solid burlywood;' +
-    'color: burlywood;' +
-    'z-index: 1;';
-
-nextSentence.style.cssText =
-    'display: block;' +
-    'position: absolute;' +
-    'font-size: 10px;' +
-    'top: 2px;' +
-    'color: gray;' +
-    'left: 100px;';
 
 // Inject sentence in chat
 function initialize() {
