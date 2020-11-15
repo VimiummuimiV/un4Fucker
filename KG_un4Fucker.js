@@ -66,6 +66,8 @@ var pereborich;
 var snowman;
 var danieli;
 var danger;
+var fieldLength;
+var fieldValue;
 // Global constant variables
 var field = document.querySelector('.text');
 var inject = document.querySelector('.send');
@@ -83,12 +85,23 @@ setInterval(function () {
     danieli = document.querySelector('.userlist-content .user474104');
     // For condition
     danger = pereborich || snowman || danieli;
+    // Check field original message availability
+    fieldLength = document.querySelector('.text').value.length;
+    fieldValue = document.querySelector('.text').value;
 }, 1000);
 
-// Inject sentence in chat
-function initialize() {
+function injectMessage() {
     field.value = `Чухан, ${sentence}`;
     inject.click();
+}
+// Inject sentence in chat
+function initialize() {
+    if (fieldLength > 0) {
+        injectMessage();
+        field.value = fieldValue;
+    } else {
+        injectMessage();
+    }
 };
 
 // Repeat with interval initialize function
