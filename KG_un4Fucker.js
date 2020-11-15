@@ -87,7 +87,7 @@ setInterval(function () {
 
 // Inject sentence in chat
 function initialize() {
-    field.value = `un4given, ${sentence}`;
+    field.value = `Чухан, ${sentence}`;
     inject.click();
 };
 
