@@ -46,18 +46,25 @@ nextSentence.style.cssText =
     'top: 2px;' +
     'color: gray;' +
     'left: 100px;';
-
+    
 setTimeout(() => {
 
 // Random sentence with no repeat
 var oneRepeatSentence = shuffle(sentences);
 // Randomize sentences array index from database with repeat no more than 1
-function* shuffle(array) {
+function* shuffle() {
     var i = sentences.length;
     while (i--) {
         yield sentences.splice(Math.floor(Math.random() * (i + 1)), 1)[0];
     }
 }
+
+// Generate new sentence by click on text info panel
+nextSentence.addEventListener('click', function() {
+    sentence = oneRepeatSentence.next().value.toLowerCase();
+    nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
+});
+
 // Milliseconds
 var milliseconds;
 // Users
@@ -160,4 +167,4 @@ window.bindTimeout(function (ms) {
 // Show what sentence will be sended in console
 window.setTimeout(() => { }, milliseconds);
 
-}, 2000);
+}, 1500);
