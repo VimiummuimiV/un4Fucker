@@ -98,7 +98,7 @@ setInterval(function () {
 }, 1000);
 
 function injectMessage() {
-    field.value = `4уханы4, ${sentence}`;
+    field.value = `Патлатая_Сущность, ${sentence}`;
     inject.click();
 }
 // Inject sentence in chat
