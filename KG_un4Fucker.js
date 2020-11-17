@@ -8,38 +8,30 @@
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
 
-// Global text data variables
-var sentences;
+// Global
 var sentence;
-var array;
-
-// Define random function
-Array.prototype.random = function () {
-    return this[Math.floor((Math.random()*this.length))];
-}
+var sentences;
+var noneStorage = localStorage.sentences == null;
+var emptyStorage = localStorage.sentences == undefined || localStorage.sentences.length < 3;
 
 // Set data into local storage if undefined
 function setIntoLocalStorage() {
-	localStorage.setItem("sentences", JSON.stringify(array));
-	var retrieveDataSet = localStorage.getItem("sentences");
-	sentences = JSON.parse(retrieveDataSet);
-	sentence = sentences.random();
+	localStorage.setItem("sentences", JSON.stringify(sentences));
+    sentences = JSON.parse(localStorage.getItem("sentences"));
+    sentence = sentences.splice(Math.floor(Math.random() * sentences.length), 1)[0];
+    localStorage.setItem("sentences", JSON.stringify(sentences));
 }
 
-// Splice from local storage if data left
+// Splice from local storage if data present
 function spliceFromLocalStorage() {
-	var storedSentences = JSON.parse(localStorage.getItem("sentences"));
-	storedSentences.splice(Math.floor(Math.random() * storedSentences.length), 1)[0];
-	localStorage.setItem("sentences", JSON.stringify(storedSentences));
-	var retrieveDataSplice = localStorage.getItem("sentences");
-	sentences = JSON.parse(retrieveDataSplice);
-    sentence = sentences.random();
+    sentences = JSON.parse(localStorage.getItem("sentences"));
+    sentence = sentences.splice(Math.floor(Math.random() * sentences.length), 1)[0];
+    localStorage.setItem("sentences", JSON.stringify(sentences));
 }
 
-function retrieveFromLocalStorage() {
-    savedSentences = localStorage.getItem("sentences");
-    sentences = JSON.parse(savedSentences);
-    sentence = sentences.random();
+function prepareFromLocalStorage() {
+    sentences = JSON.parse(localStorage.getItem("sentences"));
+    sentence = sentences[Math.floor(Math.random() * sentences.length)];
 }
 
 // Get data from github
@@ -47,11 +39,8 @@ async function getData() {
     var url = 'https://raw.githubusercontent.com/VimiummuimiV/TXT_FILES/main/KG_Sentences.txt';
     var response = await fetch(url);
     var data = await response.text();
-    array = data.split("\n");
+    sentences = data.split("\n");
 };
-
-var noneStorage = localStorage.sentences == null;
-var emptyStorage = localStorage.sentences == undefined || localStorage.sentences.length < 3;
 
 // Fill with data local storage
 if (emptyStorage) {
@@ -67,7 +56,7 @@ if (emptyStorage) {
         setIntoLocalStorage();
     }, 1500);
 } else {
-    retrieveFromLocalStorage();
+    prepareFromLocalStorage();
 }
 
 // Creating Indicator
