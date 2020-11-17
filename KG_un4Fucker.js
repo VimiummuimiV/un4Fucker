@@ -87,7 +87,7 @@ nextSentence.style.cssText =
     'top: 2px;' +
     'color: gray;' +
     'left: 100px;' +
-    'height: 15px;' +
+    'height: 13px;' +
     'right: 150px;' +
     'overflow: hidden;';
     
