@@ -132,9 +132,8 @@ setInterval(function () {
 }, 1000);
 
 function injectMessage() {
-    // field.value = `Патлатая_Сущность, ${sentence}`;
-    // inject.click();
-    console.log(`Патлатая_Сущность, ${sentence}`)
+    field.value = `Патлатая_Сущность, ${sentence}`;
+    inject.click();
 }
 // Inject sentence in chat
 function initialize() {
@@ -150,11 +149,14 @@ function initialize() {
 // Repeat with interval initialize function
 (function loop() {
     nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
-    milliseconds = generateRandomTime(10000, 15000);
+    milliseconds = generateRandomTime(400000, 800000);
     setTimeout(function () {
         // Don't run if moderator in chat or badass is absent
         if (danger || user == null) {
             void (0); // Do nothing 
+        } else if (localStorage.sentences.valueOf() == '[]') {
+            localStorage.clear();
+            window.location.reload();
         } else {
             initialize();
             spliceFromLocalStorage();
