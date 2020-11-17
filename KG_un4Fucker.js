@@ -8,15 +8,67 @@
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
 
+// Global text data variables
 var sentences;
 var sentence;
-// Get sentences database from github txt file
-(async() => {
+var array;
+
+// Define random function
+Array.prototype.random = function () {
+    return this[Math.floor((Math.random()*this.length))];
+}
+
+// Set data into local storage if undefined
+function setIntoLocalStorage() {
+	localStorage.setItem("sentences", JSON.stringify(array));
+	var retrieveDataSet = localStorage.getItem("sentences");
+	sentences = JSON.parse(retrieveDataSet);
+	sentence = sentences.random();
+}
+
+// Splice from local storage if data left
+function spliceFromLocalStorage() {
+	var storedSentences = JSON.parse(localStorage.getItem("sentences"));
+	storedSentences.splice(Math.floor(Math.random() * storedSentences.length), 1)[0];
+	localStorage.setItem("sentences", JSON.stringify(storedSentences));
+	var retrieveDataSplice = localStorage.getItem("sentences");
+	sentences = JSON.parse(retrieveDataSplice);
+    sentence = sentences.random();
+}
+
+function retrieveFromLocalStorage() {
+    savedSentences = localStorage.getItem("sentences");
+    sentences = JSON.parse(savedSentences);
+    sentence = sentences.random();
+}
+
+// Get data from github
+async function getData() {
     var url = 'https://raw.githubusercontent.com/VimiummuimiV/TXT_FILES/main/KG_Sentences.txt';
     var response = await fetch(url);
     var data = await response.text();
-    sentences = data.split("\n");
-})();
+    array = data.split("\n");
+};
+
+var noneStorage = localStorage.sentences == null;
+var emptyStorage = localStorage.sentences == undefined || localStorage.sentences.length < 3;
+
+// Fill with data local storage
+if (emptyStorage) {
+    getData();
+    setTimeout(() => {
+        setIntoLocalStorage();
+    }, 1500);
+// Renew if is empty
+} else if (emptyStorage) {
+    localStorage.clear();
+    getData();
+    setTimeout(() => {
+        setIntoLocalStorage();
+    }, 1500);
+} else {
+    retrieveFromLocalStorage();
+}
 
 // Creating Indicator
 var chatPanel = document.querySelector('.dummy');
@@ -45,23 +97,16 @@ nextSentence.style.cssText =
     'font-size: 10px;' +
     'top: 2px;' +
     'color: gray;' +
-    'left: 100px;';
+    'left: 100px;' +
+    'height: 15px;' +
+    'right: 150px;' +
+    'overflow: hidden;';
     
 setTimeout(() => {
 
-// Random sentence with no repeat
-var oneRepeatSentence = shuffle(sentences);
-// Randomize sentences array index from database with repeat no more than 1
-function* shuffle() {
-    var i = sentences.length;
-    while (i--) {
-        yield sentences.splice(Math.floor(Math.random() * (i + 1)), 1)[0];
-    }
-}
-
 // Generate new sentence by click on text info panel
 nextSentence.addEventListener('click', function() {
-    sentence = oneRepeatSentence.next().value.toLowerCase();
+    spliceFromLocalStorage();
     nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
 });
 
@@ -79,7 +124,7 @@ var fieldValue;
 var field = document.querySelector('.text');
 var inject = document.querySelector('.send');
 // Randomize seconds
-function generateRandomInteger(min, max) {
+function generateRandomTime(min, max) {
     return Math.floor(min + Math.random() * (max + 1 - min));
 }
 // Update every second users availability in chat list
@@ -98,11 +143,13 @@ setInterval(function () {
 }, 1000);
 
 function injectMessage() {
-    field.value = `Патлатая_Сущность, ${sentence}`;
-    inject.click();
+    // field.value = `Патлатая_Сущность, ${sentence}`;
+    // inject.click();
+    console.log(`Патлатая_Сущность, ${sentence}`)
 }
 // Inject sentence in chat
 function initialize() {
+    // Keep original message
     if (fieldLength > 0) {
         injectMessage();
         field.value = fieldValue;
@@ -113,15 +160,15 @@ function initialize() {
 
 // Repeat with interval initialize function
 (function loop() {
-    sentence = oneRepeatSentence.next().value.toLowerCase();
     nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
-    milliseconds = generateRandomInteger(400000, 600000);
+    milliseconds = generateRandomTime(10000, 15000);
     setTimeout(function () {
         // Don't run if moderator in chat or badass is absent
         if (danger || user == null) {
             void (0); // Do nothing 
         } else {
             initialize();
+            spliceFromLocalStorage();
         }
         loop();
     }, milliseconds);
@@ -167,4 +214,4 @@ window.bindTimeout(function (ms) {
 // Show what sentence will be sended in console
 window.setTimeout(() => { }, milliseconds);
 
-}, 1500);
+}, 2000);
