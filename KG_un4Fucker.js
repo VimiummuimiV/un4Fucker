@@ -43,7 +43,7 @@ async function getData() {
 };
 
 // Fill with data local storage
-if (emptyStorage) {
+if (noneStorage) {
     getData();
     setTimeout(() => {
         setIntoLocalStorage();
