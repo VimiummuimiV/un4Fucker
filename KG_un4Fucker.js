@@ -99,7 +99,7 @@ nextSentence.style.cssText =
 setTimeout(() => {
 
 // Generate new sentence by click on text info panel
-nextSentence.addEventListener('click', function() {
+nextSentence.addEventListener('dblclick', function() {
     spliceFromLocalStorage();
     nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
 });
