@@ -108,7 +108,7 @@ nextSentence.addEventListener('click', function() {
 var user;
 var fieldLength;
 var fieldValue;
-var maxMessages = 25;
+var maxMessages = generateRandomInterval(22, 33);
 // Global constant variables
 var field = document.querySelector('.text');
 var inject = document.querySelector('.send');
@@ -140,7 +140,6 @@ setInterval(function () {
 
     // Post since random range messages count
     if (availableMessages == maxMessages || availableMessages > maxMessages) {
-        maxMessages = generateRandomInterval(22, 33);
         setTimeout(() => {
             document.querySelector('.messages-content div').innerHTML = "";
         }, 3000);
