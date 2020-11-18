@@ -27,13 +27,14 @@ function setIntoLocalStorage() {
     localStorage.setItem("sentences", JSON.stringify(sentences));
 }
 
-// Splice from local storage if data present
+// Splice from local storage after post or by double click on info panel 
 function spliceFromLocalStorage() {
     sentences = JSON.parse(localStorage.getItem("sentences"));
     sentence = sentences.splice(Math.floor(Math.random() * sentences.length), 1)[0];
     localStorage.setItem("sentences", JSON.stringify(sentences));
 }
 
+// Get data from local storage after page reload
 function prepareFromLocalStorage() {
     sentences = JSON.parse(localStorage.getItem("sentences"));
     sentence = sentences[Math.floor(Math.random() * sentences.length)];
@@ -67,9 +68,10 @@ if (noneStorage) {
 // Creating Indicator
 var chatPanel = document.querySelector('.dummy');
 var indicator = chatPanel.appendChild(document.createElement('p'));
-indicator.innerText = '--';
+    indicator.innerText = '--';
 var nextSentence = chatPanel.appendChild(document.createElement('p'));
 
+// CSS indicator
 indicator.style.cssText =
     'display: flex;' +
     'height: 16px;' +
@@ -85,6 +87,7 @@ indicator.style.cssText =
     'color: burlywood;' +
     'z-index: 1;';
 
+// CSS info panel
 nextSentence.style.cssText =
     'display: block;' +
     'position: absolute;' +
@@ -95,7 +98,8 @@ nextSentence.style.cssText =
     'height: 13px;' +
     'right: 150px;' +
     'overflow: hidden;';
-    
+
+// Timeout for enough time to retrieve data from github to bypass issue with no sentences data 
 setTimeout(() => {
 
 // Generate new sentence by click on text info panel
@@ -104,52 +108,41 @@ nextSentence.addEventListener('dblclick', function() {
     nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
 });
 
-// People
-var user;
-var fieldLength;
-var fieldValue;
+// Max messages after runs the trigger 
 var maxMessages;
-// Global constant variables
+// Global constant variables for chat text input and send button
 var field = document.querySelector('.text');
 var inject = document.querySelector('.send');
 
 // Inject sentence in chat
 function injectMessage() {
-    field.value = `Патлатая_Сущность, ${sentence}`;
-    inject.click();
+    // field.value = `Патлатая_Сущность, ${sentence}`;
+    // inject.click();
+    console.log(`Патлатая_Сущность, ${sentence}`)
 }
 
 // Keep original message
 function initialize() {
-    if (fieldLength > 0) {
+    if (document.querySelector('.text').value.length > 0) {
+        var backup = document.querySelector('.text').value;
         injectMessage();
-        field.value = fieldValue;
+        field.value = backup;
     } else {
         injectMessage();
     }
 };
 
-maxMessages = generateRandomInterval(22, 33);
+// Randomize max messages count and set into global variable after page reload
+maxMessages = generateRandomInterval(3, 5);
 
-// Dynamic update Start
-setInterval(function () {
-    // Chubaka
-    user = document.querySelector('.userlist-content .user111001');
-    // Check field original message availability
-    fieldLength = document.querySelector('.text').value.length;
-    fieldValue = document.querySelector('.text').value;
-    var availableMessages = document.querySelectorAll('.messages-content div p').length;
-
-    // Post since random range messages count
-    if (availableMessages == maxMessages || availableMessages > maxMessages) {
-        maxMessages = generateRandomInterval(22, 33);
-        setTimeout(() => {
-            document.querySelector('.messages-content div').innerHTML = "";
-        }, 3000);
-    // Check if can post
-    setTimeout(function () {
-        // Don't run if moderator in chat or badass is absent
-        if (user == null) {
+// Check messages max count dynamically
+if (document.querySelectorAll('messages-content div p').length > maxMessages) {
+maxMessages = generateRandomInterval(3, 5);
+setTimeout(() => {
+    document.querySelector('.messages-content div').innerHTML = "";
+    setTimeout(() => {
+        // Poster
+        if (document.querySelector('.userlist-content .user111001') == null) {
             // Do nothing
         } else if (localStorage.sentences.valueOf() == '[]') {
             localStorage.clear();
@@ -158,14 +151,12 @@ setInterval(function () {
             nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
             initialize();
             spliceFromLocalStorage();
-        }
-    }, 5000);
+            }
+        }, 2000);
+    }, 3000);
 }
-    // Counter for indicator
-    indicator.innerText = `${availableMessages}|${maxMessages}`;
-}, 1000);
-// Dynamic update End
 
+// Digital indicator value 
 nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
 
 }, 2000);
