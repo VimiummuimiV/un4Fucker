@@ -148,7 +148,7 @@ setInterval(function () {
     setTimeout(function () {
         // Don't run if moderator in chat or badass is absent
         if (user == null) {
-            void (0); // Do nothing 
+            // Do nothing
         } else if (localStorage.sentences.valueOf() == '[]') {
             localStorage.clear();
             window.location.reload();
@@ -163,5 +163,7 @@ setInterval(function () {
     indicator.innerText = `${availableMessages}|${maxMessages}`;
 }, 1000);
 // Dynamic update End
+
+nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
 
 }, 2000);
