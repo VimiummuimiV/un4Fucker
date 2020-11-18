@@ -14,6 +14,11 @@ var sentences;
 var noneStorage = localStorage.sentences == null;
 var emptyStorage = localStorage.sentences == undefined || localStorage.sentences.length < 3;
 
+// Randomize seconds
+function generateRandomInterval(min, max) {
+    return Math.floor(min + Math.random() * (max + 1 - min));
+}
+
 // Set data into local storage if undefined
 function setIntoLocalStorage() {
 	localStorage.setItem("sentences", JSON.stringify(sentences));
@@ -68,7 +73,7 @@ var nextSentence = chatPanel.appendChild(document.createElement('p'));
 indicator.style.cssText =
     'display: flex;' +
     'height: 16px;' +
-    'width: 32px;' +
+    'width: 40px;' +
     'background: #213434;' +
     'justify-content: center;' +
     'position: absolute;' +
@@ -99,45 +104,23 @@ nextSentence.addEventListener('click', function() {
     nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
 });
 
-// Milliseconds
-var milliseconds;
-// Users
+// People
 var user;
-var pereborich;
-var snowman;
-var danieli;
-var danger;
 var fieldLength;
 var fieldValue;
+var maxMessages = 25;
 // Global constant variables
 var field = document.querySelector('.text');
 var inject = document.querySelector('.send');
-// Randomize seconds
-function generateRandomTime(min, max) {
-    return Math.floor(min + Math.random() * (max + 1 - min));
-}
-// Update every second users availability in chat list
-setInterval(function () {
-    // Pay attention
-    user = document.querySelector('.userlist-content .user111001');
-    // Be aware
-    pereborich = document.querySelector('.userlist-content .user123190');
-    snowman = document.querySelector('.userlist-content .user150888');
-    danieli = document.querySelector('.userlist-content .user474104');
-    // For condition
-    danger = pereborich || snowman || danieli;
-    // Check field original message availability
-    fieldLength = document.querySelector('.text').value.length;
-    fieldValue = document.querySelector('.text').value;
-}, 1000);
 
+// Inject sentence in chat
 function injectMessage() {
     field.value = `Патлатая_Сущность, ${sentence}`;
     inject.click();
 }
-// Inject sentence in chat
+
+// Keep original message
 function initialize() {
-    // Keep original message
     if (fieldLength > 0) {
         injectMessage();
         field.value = fieldValue;
@@ -146,63 +129,39 @@ function initialize() {
     }
 };
 
-// Repeat with interval initialize function
-(function loop() {
-    nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
-    milliseconds = generateRandomTime(400000, 800000);
+// Dynamic update Start
+setInterval(function () {
+    // Chubaka
+    user = document.querySelector('.userlist-content .user111001');
+    // Check field original message availability
+    fieldLength = document.querySelector('.text').value.length;
+    fieldValue = document.querySelector('.text').value;
+    var availableMessages = document.querySelectorAll('.messages-content div p').length;
+
+    // Post since random range messages count
+    if (availableMessages == maxMessages || availableMessages > maxMessages) {
+        maxMessages = generateRandomInterval(22, 33);
+        setTimeout(() => {
+            document.querySelector('.messages-content div').innerHTML = "";
+        }, 3000);
+    // Check if can post
     setTimeout(function () {
         // Don't run if moderator in chat or badass is absent
-        if (danger || user == null) {
+        if (user == null) {
             void (0); // Do nothing 
         } else if (localStorage.sentences.valueOf() == '[]') {
             localStorage.clear();
             window.location.reload();
         } else {
+            nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
             initialize();
             spliceFromLocalStorage();
         }
-        loop();
-    }, milliseconds);
-} ());
-
-// Indicator functions
-(function () {
-    var nativeSetTimeout = window.setTimeout;
-
-    window.bindTimeout = function (listener, interval) {
-        function setTimeout(code, delay) {
-            var elapsed = 0,
-                h;
-
-            h = window.setInterval(function () {
-                elapsed += interval;
-                if (elapsed < delay) {
-                    listener(delay - elapsed);
-                } else {
-                    window.clearInterval(h);
-                }
-            }, interval);
-            return nativeSetTimeout(code, delay);
-        }
-
-        window.setTimeout = setTimeout;
-        setTimeout._native = nativeSetTimeout;
-    };
-} ());
-// Show how much seconds left
-window.bindTimeout(function (ms) {
-    if (danger) {
-        indicator.innerText = '🛡️';
-    }
-    else if (user == null) {
-        indicator.innerText = '😞';
-    }
-    else {
-        var seconds = Math.floor((ms % (100000 * 60)) / 1000);
-        indicator.innerText = seconds;
-    }
+    }, 5000);
+}
+    // Counter for indicator
+    indicator.innerText = `${availableMessages}|${maxMessages}`;
 }, 1000);
-// Show what sentence will be sended in console
-window.setTimeout(() => { }, milliseconds);
+// Dynamic update End
 
 }, 2000);
