@@ -108,7 +108,7 @@ nextSentence.addEventListener('click', function() {
 var user;
 var fieldLength;
 var fieldValue;
-var maxMessages = generateRandomInterval(22, 33);
+var maxMessages;
 // Global constant variables
 var field = document.querySelector('.text');
 var inject = document.querySelector('.send');
@@ -129,6 +129,8 @@ function initialize() {
     }
 };
 
+maxMessages = generateRandomInterval(22, 33);
+
 // Dynamic update Start
 setInterval(function () {
     // Chubaka
@@ -140,6 +142,7 @@ setInterval(function () {
 
     // Post since random range messages count
     if (availableMessages == maxMessages || availableMessages > maxMessages) {
+        maxMessages = generateRandomInterval(22, 33);
         setTimeout(() => {
             document.querySelector('.messages-content div').innerHTML = "";
         }, 3000);
