@@ -55,7 +55,7 @@ if (noneStorage) {
     }, 1500);
 // Renew if is empty
 } else if (emptyStorage) {
-    localStorage.clear();
+    localStorage.removeItem("sentences");
     getData();
     setTimeout(() => {
         setIntoLocalStorage();
