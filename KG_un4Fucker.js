@@ -30,7 +30,7 @@ function setIntoLocalStorage() {
     localStorage.setItem("sentences", JSON.stringify(sentences));
 }
 
-// Splice from local storage after post or by double click on info panel 
+// Splice from local storage after post or by double click on info panel
 function spliceFromLocalStorage() {
     sentences = JSON.parse(localStorage.getItem("sentences"));
     sentence = sentences.splice(Math.floor(Math.random() * sentences.length), 1)[0];
@@ -102,7 +102,7 @@ nextSentence.style.cssText =
     'right: 150px;' +
     'overflow: hidden;';
 
-// Timeout for enough time to retrieve data from github to bypass issue with no sentences data 
+// Timeout for enough time to retrieve data from github to bypass issue with no sentences data
 setTimeout(() => {
 
 // Generate new sentence by click on text info panel
@@ -111,7 +111,7 @@ nextSentence.addEventListener('dblclick', function() {
     nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
 });
 
-// Max messages after runs the trigger 
+// Max messages after runs the trigger
 var maxMessages;
 // Global constant variables for chat text input and send button
 var field = document.querySelector('.text');
@@ -139,7 +139,7 @@ function initialize() {
 maxMessages = generateRandomInterval(minCnt, maxCnt);
 
 setInterval(() => {
-    
+
 // Check messages max count dynamically
 if (document.querySelectorAll('messages-content div p').length > maxMessages) {
 setTimeout(() => {
@@ -162,7 +162,7 @@ setTimeout(() => {
 maxMessages = generateRandomInterval(minCnt, maxCnt);
 }, interval);
 
-// Digital indicator value 
+// Digital indicator value
 nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
 
 }, interval);
