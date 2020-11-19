@@ -13,6 +13,9 @@ var sentence;
 var sentences;
 var noneStorage = localStorage.sentences == null;
 var emptyStorage = localStorage.sentences == undefined || localStorage.sentences.length < 3;
+var minCnt = 3;
+var maxCnt = 5;
+var interval = 3000;
 
 // Randomize seconds
 function generateRandomInterval(min, max) {
@@ -133,11 +136,12 @@ function initialize() {
 };
 
 // Randomize max messages count and set into global variable after page reload
-maxMessages = generateRandomInterval(3, 5);
+maxMessages = generateRandomInterval(minCnt, maxCnt);
 
+setInterval(() => {
+    
 // Check messages max count dynamically
 if (document.querySelectorAll('messages-content div p').length > maxMessages) {
-maxMessages = generateRandomInterval(3, 5);
 setTimeout(() => {
     document.querySelector('.messages-content div').innerHTML = "";
     setTimeout(() => {
@@ -145,18 +149,20 @@ setTimeout(() => {
         if (document.querySelector('.userlist-content .user111001') == null) {
             // Do nothing
         } else if (localStorage.sentences.valueOf() == '[]') {
-            localStorage.clear();
+            localStorage.removeItem("sentences");
             window.location.reload();
         } else {
-            nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
-            initialize();
             spliceFromLocalStorage();
+            initialize();
+            nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
             }
-        }, 2000);
-    }, 3000);
+        }, interval);
+    }, interval);
 }
+maxMessages = generateRandomInterval(minCnt, maxCnt);
+}, interval);
 
 // Digital indicator value 
 nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
 
-}, 2000);
+}, interval);
