@@ -9,13 +9,16 @@
 // ==/UserScript==
 
 // Global
+var array;
 var sentence;
 var sentences;
-var noneStorage = localStorage.sentences == null;
-var emptyStorage = localStorage.sentences == undefined || localStorage.sentences.length < 3;
-var minCnt = 3;
+var minCnt = 5;
 var maxCnt = 5;
-var interval = 3000;
+var fastInterval = 1000;
+var middleInterval = 2000;
+var slowInterval = 3000;
+// Default start max messages value
+var maxMessages = 25;
 
 // Randomize seconds
 function generateRandomInterval(min, max) {
@@ -24,7 +27,7 @@ function generateRandomInterval(min, max) {
 
 // Set data into local storage if undefined
 function setIntoLocalStorage() {
-	localStorage.setItem("sentences", JSON.stringify(sentences));
+	localStorage.setItem("sentences", JSON.stringify(array));
     sentences = JSON.parse(localStorage.getItem("sentences"));
     sentence = sentences.splice(Math.floor(Math.random() * sentences.length), 1)[0];
     localStorage.setItem("sentences", JSON.stringify(sentences));
@@ -48,30 +51,47 @@ async function getData() {
     var url = 'https://raw.githubusercontent.com/VimiummuimiV/TXT_FILES/main/KG_Sentences.txt';
     var response = await fetch(url);
     var data = await response.text();
-    sentences = data.split("\n");
+    array = data.split("\n");
 };
 
 // Fill with data local storage
-if (noneStorage) {
+if (localStorage.sentences === undefined || localStorage.sentences === 'undefined') {
+    console.log('Storage item sentences does not exist');
     getData();
     setTimeout(() => {
         setIntoLocalStorage();
-    }, 1500);
+    }, fastInterval);
+    setTimeout(() => {
+        runAction();
+    }, slowInterval);
 // Renew if is empty
-} else if (emptyStorage) {
+} else if (localStorage.sentences.length < 3) {
+    console.log('Storage already is empty.');
     localStorage.removeItem("sentences");
     getData();
     setTimeout(() => {
         setIntoLocalStorage();
-    }, 1500);
+    }, fastInterval);
+    setTimeout(() => {
+        runAction();
+    }, slowInterval);
 } else {
+    console.log('Storage is full with sentences. Everything is okay.');
     prepareFromLocalStorage();
+    setTimeout(() => {
+        runAction();
+    }, fastInterval);
 }
+
+
+// Run at the end when every condition up is done 
+function runAction() {
 
 // Creating Indicator
 var chatPanel = document.querySelector('.dummy');
 var indicator = chatPanel.appendChild(document.createElement('p'));
     indicator.innerText = '--';
+// Info panel
 var nextSentence = chatPanel.appendChild(document.createElement('p'));
 
 // CSS indicator
@@ -102,8 +122,11 @@ nextSentence.style.cssText =
     'right: 150px;' +
     'overflow: hidden;';
 
-// Timeout for enough time to retrieve data from github to bypass issue with no sentences data
-setTimeout(() => {
+// Indicator value
+nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
+
+// Show since how much messages will run again poster [ value decreasing until becomes 0 ]
+indicator.innerText = maxMessages - document.querySelectorAll('.messages-content div p').length + 1;
 
 // Generate new sentence by click on text info panel
 nextSentence.addEventListener('dblclick', function() {
@@ -111,8 +134,6 @@ nextSentence.addEventListener('dblclick', function() {
     nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
 });
 
-// Max messages after runs the trigger
-var maxMessages;
 // Global constant variables for chat text input and send button
 var field = document.querySelector('.text');
 var inject = document.querySelector('.send');
@@ -135,34 +156,28 @@ function initialize() {
     }
 };
 
-// Randomize max messages count and set into global variable after page reload
-maxMessages = generateRandomInterval(minCnt, maxCnt);
-
 setInterval(() => {
 
+var triggerOnce = true;
 // Check messages max count dynamically
-if (document.querySelectorAll('messages-content div p').length > maxMessages) {
-setTimeout(() => {
-    document.querySelector('.messages-content div').innerHTML = "";
-    setTimeout(() => {
-        // Poster
-        if (document.querySelector('.userlist-content .user111001') == null) {
-            // Do nothing
-        } else if (localStorage.sentences.valueOf() == '[]') {
-            localStorage.removeItem("sentences");
-            window.location.reload();
-        } else {
-            spliceFromLocalStorage();
-            initialize();
-            nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
-            }
-        }, interval);
-    }, interval);
+if (document.querySelectorAll('.messages-content div p').length > maxMessages && triggerOnce === true) {
+// Randomize max messages value and set into global variable
+maxMessages = document.querySelectorAll('.messages-content div p').length + generateRandomInterval(minCnt, maxCnt);
+triggerOnce = false;
+    // Poster
+    if (document.querySelector('.userlist-content .user111001') == null) {
+        // Do nothing
+        console.log('This bastard is absent.');
+    } else if (localStorage.sentences.valueOf() == '[]') {
+        localStorage.removeItem("sentences");
+        window.location.reload();
+    } else {
+        spliceFromLocalStorage();
+        nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
+        initialize();
+    }
 }
-maxMessages = generateRandomInterval(minCnt, maxCnt);
-}, interval);
 
-// Digital indicator value
-nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
+}, slowInterval);
 
-}, interval);
+}
