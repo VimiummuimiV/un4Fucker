@@ -9,9 +9,9 @@
 // ==/UserScript==
 
 // Global
-var array;
-var sentence;
-var sentences;
+var array = "Empty";
+var sentence = "Empty";
+var sentences = "...";
 var minCnt = 30;
 var maxCnt = 40;
 var fastInterval = 1000;
@@ -90,6 +90,8 @@ if (localStorage.sentences === undefined || localStorage.sentences === 'undefine
     getData();
     setTimeout(() => {
         setIntoLocalStorage();
+    }, fastInterval);
+    setTimeout(() => {
         window.location.reload();
     }, fastInterval);
 // Renew if is empty
@@ -99,6 +101,8 @@ if (localStorage.sentences === undefined || localStorage.sentences === 'undefine
     getData();
     setTimeout(() => {
         setIntoLocalStorage();
+    }, fastInterval);
+    setTimeout(() => {
         window.location.reload();
     }, fastInterval);
 } else {
@@ -155,7 +159,7 @@ nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
 function runAction() {
 
 // Show since how much messages will run again poster [ value decreasing until becomes 0 ]
-indicator.innerText = maxMessages - document.querySelectorAll('.messages-content div p').length;
+indicator.innerText = maxMessages - document.querySelectorAll('.messages-content div p').length + 1;
 
 var triggerOnce = true;
 // Check messages max count dynamically
@@ -168,7 +172,9 @@ triggerOnce = false;
         // Do nothing
     } else if (localStorage.sentences.valueOf() == '[]') {
         localStorage.removeItem("sentences");
-        window.location.reload();
+        setTimeout(() => {
+            window.location.reload();
+        }, fastInterval);
     } else {
         initialize();
         spliceFromLocalStorage();
