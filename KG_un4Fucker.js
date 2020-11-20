@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         un4Fucker
 // @namespace    https://#
-// @version      0.5
+// @version      0.6
 // @description  Let this guy suffer!
 // @author       Puncher
 // @match        http*://klavogonki.ru/gamelist/
@@ -12,13 +12,17 @@
 var array;
 var sentence;
 var sentences;
-var minCnt = 5;
-var maxCnt = 5;
+var minCnt = 30;
+var maxCnt = 40;
 var fastInterval = 1000;
 var middleInterval = 2000;
 var slowInterval = 3000;
+var ultraSlowInterval = 5000;
 // Default start max messages value
 var maxMessages = 25;
+// Global constant variables for chat text input and send button
+var field = document.querySelector('.text');
+var inject = document.querySelector('.send');
 
 // Randomize seconds
 function generateRandomInterval(min, max) {
@@ -54,16 +58,40 @@ async function getData() {
     array = data.split("\n");
 };
 
+// Inject sentence in chat
+function injectMessage() {
+    field.value = `Патлатая_Сущность, ${sentence}`;
+    inject.click();
+}
+
+// Keep original message
+function initialize() {
+    if (document.querySelector('.text').value.length > 0) {
+        var backup = document.querySelector('.text').value;
+        injectMessage();
+        field.value = backup;
+    } else {
+        injectMessage();
+    }
+};
+
+function runFast() {
+    setTimeout(() => {
+        setInterval(() => {
+            runAction();
+        }, fastInterval);
+    }, fastInterval);
+    console.log('fast run');
+}
+
 // Fill with data local storage
 if (localStorage.sentences === undefined || localStorage.sentences === 'undefined') {
     console.log('Storage item sentences does not exist');
     getData();
     setTimeout(() => {
         setIntoLocalStorage();
+        window.location.reload();
     }, fastInterval);
-    setTimeout(() => {
-        runAction();
-    }, slowInterval);
 // Renew if is empty
 } else if (localStorage.sentences.length < 3) {
     console.log('Storage already is empty.');
@@ -71,21 +99,13 @@ if (localStorage.sentences === undefined || localStorage.sentences === 'undefine
     getData();
     setTimeout(() => {
         setIntoLocalStorage();
+        window.location.reload();
     }, fastInterval);
-    setTimeout(() => {
-        runAction();
-    }, slowInterval);
 } else {
     console.log('Storage is full with sentences. Everything is okay.');
     prepareFromLocalStorage();
-    setTimeout(() => {
-        runAction();
-    }, fastInterval);
+    runFast();
 }
-
-
-// Run at the end when every condition up is done 
-function runAction() {
 
 // Creating Indicator
 var chatPanel = document.querySelector('.dummy');
@@ -93,6 +113,12 @@ var indicator = chatPanel.appendChild(document.createElement('p'));
     indicator.innerText = '--';
 // Info panel
 var nextSentence = chatPanel.appendChild(document.createElement('p'));
+
+// Generate new sentence by click on text info panel
+nextSentence.addEventListener('dblclick', function() {
+    spliceFromLocalStorage();
+    nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
+});
 
 // CSS indicator
 indicator.style.cssText =
@@ -125,38 +151,11 @@ nextSentence.style.cssText =
 // Indicator value
 nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
 
+// Run at the end when every condition up is done 
+function runAction() {
+
 // Show since how much messages will run again poster [ value decreasing until becomes 0 ]
-indicator.innerText = maxMessages - document.querySelectorAll('.messages-content div p').length + 1;
-
-// Generate new sentence by click on text info panel
-nextSentence.addEventListener('dblclick', function() {
-    spliceFromLocalStorage();
-    nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
-});
-
-// Global constant variables for chat text input and send button
-var field = document.querySelector('.text');
-var inject = document.querySelector('.send');
-
-// Inject sentence in chat
-function injectMessage() {
-    // field.value = `Патлатая_Сущность, ${sentence}`;
-    // inject.click();
-    console.log(`Патлатая_Сущность, ${sentence}`)
-}
-
-// Keep original message
-function initialize() {
-    if (document.querySelector('.text').value.length > 0) {
-        var backup = document.querySelector('.text').value;
-        injectMessage();
-        field.value = backup;
-    } else {
-        injectMessage();
-    }
-};
-
-setInterval(() => {
+indicator.innerText = maxMessages - document.querySelectorAll('.messages-content div p').length;
 
 var triggerOnce = true;
 // Check messages max count dynamically
@@ -167,17 +166,14 @@ triggerOnce = false;
     // Poster
     if (document.querySelector('.userlist-content .user111001') == null) {
         // Do nothing
-        console.log('This bastard is absent.');
     } else if (localStorage.sentences.valueOf() == '[]') {
         localStorage.removeItem("sentences");
         window.location.reload();
     } else {
+        initialize();
         spliceFromLocalStorage();
         nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
-        initialize();
     }
 }
-
-}, slowInterval);
 
 }
