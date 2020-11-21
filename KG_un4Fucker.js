@@ -8,12 +8,14 @@
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
 
-// Global
+// Data 
 var array;
 var sentence;
 var sentences;
+// Random
 var minCnt = 30;
 var maxCnt = 40;
+// Intervals
 var fastInterval = 1000;
 var middleInterval = 2000;
 var slowInterval = 3000;
@@ -30,7 +32,6 @@ function reloadPage() {
 }
 
 // Reset data base by double click on field
-
 field.addEventListener('dblclick', function() {
     localStorage.removeItem("sentences");
     getData();
