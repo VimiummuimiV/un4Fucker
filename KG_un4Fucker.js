@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         un4Fucker
 // @namespace    https://#
-// @version      0.6
+// @version      0.7
 // @description  Let this guy suffer!
 // @author       Puncher
 // @match        http*://klavogonki.ru/gamelist/
@@ -9,9 +9,9 @@
 // ==/UserScript==
 
 // Global
-var array = "Empty";
-var sentence = "Empty";
-var sentences = "...";
+var array;
+var sentence;
+var sentences;
 var minCnt = 30;
 var maxCnt = 40;
 var fastInterval = 1000;
