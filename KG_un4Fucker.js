@@ -150,33 +150,54 @@ nextSentence.addEventListener('dblclick', function() {
     nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
 });
 
-// CSS indicator
-indicator.style.cssText =
-    'display: flex;' +
-    'height: 16px;' +
-    'width: 40px;' +
-    'background: #213434;' +
-    'justify-content: center;' +
-    'position: absolute;' +
-    'top: 0;' +
-    'right: 105px;' +
-    'align-items: center;' +
-    'font: 12px Consolas;' +
-    'border: 1px solid burlywood;' +
-    'color: burlywood;' +
-    'z-index: 1;';
+// CSS Indicator and Info panel
+var inject_css = document.createElement("style");
+    inject_css.setAttribute("type", "text/css");
+    inject_css.innerHTML = '' +
+    '.digital_indicator {' +
+        'display: flex;' +
+        'height: 16px;' +
+        'width: 40px;' +
+        'background: #213434;' +
+        'justify-content: center;' +
+        'position: absolute;' +
+        'top: 0;' +
+        'right: 105px;' +
+        'align-items: center;' +
+        'font: 12px Consolas;' +
+        'border: 1px solid burlywood;' +
+        'color: burlywood;' +
+        'z-index: 1;' +
+        'cursor: pointer' +
+    '}' +
 
-// CSS info panel
-nextSentence.style.cssText =
-    'display: block;' +
-    'position: absolute;' +
-    'font-size: 10px;' +
-    'top: 2px;' +
-    'color: gray;' +
-    'left: 100px;' +
-    'height: 13px;' +
-    'right: 150px;' +
-    'overflow: hidden;';
+    '.next_sentence {' +
+        'display: block;' +
+        'position: absolute;' +
+        'font-size: 10px;' +
+        'top: 2px;' +
+        'color: gray;' +
+        'transition: color .5s ease-in-out;' +
+        'left: 100px;' +
+        'height: 13px;' +
+        'right: 150px;' +
+        'overflow: hidden;' +
+        'animation: typewriter 4s steps(44) 1s 1 normal both, blinkTextCursor 500ms steps(44) infinite normal;' +
+    '}' +
+    '@keyframes typewriter{' +
+        'from{width: 0;}' +
+        'to{width: 85%;}' +
+    '}' +
+    '@keyframes blinkTextCursor{' +
+        'from{border-right-color: rgba(255,255,255,.75);}' +
+        'to{border-right-color: transparent;}' +
+    '}' +
+    '.next_sentence:hover {' +
+        'color: lightgray;' +
+        'cursor: pointer;';
+
+
+document.body.appendChild(inject_css);
 
 // Indicator value
 nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
