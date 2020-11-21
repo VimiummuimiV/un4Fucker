@@ -24,6 +24,24 @@ var maxMessages = 30;
 var field = document.querySelector('.text');
 var inject = document.querySelector('.send');
 
+// Reload page
+function reloadPage() {
+    window.location.reload();
+}
+
+// Reset data base by double click on field
+
+field.addEventListener('dblclick', function() {
+    localStorage.removeItem("sentences");
+    getData();
+    setTimeout(() => {
+       setIntoLocalStorage(); 
+    }, fastInterval);
+    setTimeout(() => {
+        reloadPage();
+    }, slowInterval);
+})
+
 // Randomize seconds
 function generateRandomInterval(min, max) {
     return Math.floor(min + Math.random() * (max + 1 - min));
@@ -91,7 +109,7 @@ if (localStorage.sentences === undefined || localStorage.sentences === 'undefine
         setIntoLocalStorage();
     }, fastInterval);
     setTimeout(() => {
-        window.location.reload();
+        reloadPage();
     }, slowInterval);
 // Renew if is empty
 } else if (localStorage.sentences.length < 3) {
@@ -102,7 +120,7 @@ if (localStorage.sentences === undefined || localStorage.sentences === 'undefine
         setIntoLocalStorage();
     }, fastInterval);
     setTimeout(() => {
-        window.location.reload();
+        reloadPage();
     }, slowInterval);
 } else {
     console.log('Storage is full with sentences. Everything is okay.');
@@ -172,7 +190,7 @@ triggerOnce = false;
     } else if (localStorage.sentences.valueOf() == '[]') {
         localStorage.removeItem("sentences");
         setTimeout(() => {
-            window.location.reload();
+            reloadPage();
         }, slowInterval);
     } else {
         initialize();
