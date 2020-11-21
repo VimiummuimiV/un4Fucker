@@ -81,7 +81,6 @@ function runFast() {
             runAction();
         }, fastInterval);
     }, fastInterval);
-    console.log('fast run');
 }
 
 // Fill with data local storage
