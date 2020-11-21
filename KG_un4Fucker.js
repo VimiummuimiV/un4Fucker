@@ -92,7 +92,7 @@ if (localStorage.sentences === undefined || localStorage.sentences === 'undefine
     }, fastInterval);
     setTimeout(() => {
         window.location.reload();
-    }, fastInterval);
+    }, slowInterval);
 // Renew if is empty
 } else if (localStorage.sentences.length < 3) {
     console.log('Storage already is empty.');
@@ -103,7 +103,7 @@ if (localStorage.sentences === undefined || localStorage.sentences === 'undefine
     }, fastInterval);
     setTimeout(() => {
         window.location.reload();
-    }, fastInterval);
+    }, slowInterval);
 } else {
     console.log('Storage is full with sentences. Everything is okay.');
     prepareFromLocalStorage();
@@ -173,7 +173,7 @@ triggerOnce = false;
         localStorage.removeItem("sentences");
         setTimeout(() => {
             window.location.reload();
-        }, fastInterval);
+        }, slowInterval);
     } else {
         initialize();
         spliceFromLocalStorage();
