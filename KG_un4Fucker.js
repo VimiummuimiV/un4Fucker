@@ -10,8 +10,8 @@
 
 // Data 
 var array;
-var sentence;
-var sentences;
+var sentence = "Empty";
+var sentences = "...";
 // Random
 var minCnt = 30;
 var maxCnt = 40;
@@ -21,7 +21,7 @@ var middleInterval = 2000;
 var slowInterval = 3000;
 var ultraSlowInterval = 5000;
 // Default start max messages value
-var maxMessages = 30;
+var maxMessages = 50;
 // Global constant variables for chat text input and send button
 var field = document.querySelector('.text');
 var inject = document.querySelector('.send');
@@ -113,7 +113,7 @@ if (localStorage.sentences === undefined || localStorage.sentences === 'undefine
         reloadPage();
     }, slowInterval);
 // Renew if is empty
-} else if (localStorage.sentences.length < 3) {
+} else if (localStorage.sentences.length < 10) {
     console.log('Storage already is empty.');
     localStorage.removeItem("sentences");
     getData();
@@ -132,9 +132,17 @@ if (localStorage.sentences === undefined || localStorage.sentences === 'undefine
 // Creating Indicator
 var chatPanel = document.querySelector('.dummy');
 var indicator = chatPanel.appendChild(document.createElement('p'));
+    indicator.setAttribute('class', 'digital_indicator');
     indicator.innerText = '--';
+
+// Generate new random range interval number by double click on digital indicator
+indicator.addEventListener('dblclick', function() {
+    maxMessages = document.querySelectorAll('.messages-content div p').length + generateRandomInterval(minCnt, maxCnt);
+})
+
 // Info panel
 var nextSentence = chatPanel.appendChild(document.createElement('p'));
+    nextSentence.setAttribute('class', 'next_sentence');
 
 // Generate new sentence by click on text info panel
 nextSentence.addEventListener('dblclick', function() {
@@ -177,7 +185,7 @@ nextSentence.innerText = `${sentences.length+1} | ${sentence}`;
 function runAction() {
 
 // Show since how much messages will run again poster [ value decreasing until becomes 0 ]
-indicator.innerText = maxMessages - document.querySelectorAll('.messages-content div p').length + 1;
+indicator.innerText = maxMessages - document.querySelectorAll('.messages-content div p').length;
 
 var triggerOnce = true;
 // Check messages max count dynamically
