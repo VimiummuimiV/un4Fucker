@@ -55,15 +55,17 @@ function beep() {
 // Reset data base by double click on field
 field.addEventListener('dblclick', function() {
     localStorage.removeItem("sentences");
+    setTimeout(() => {
     getData();
     setTimeout(() => {
-       setIntoLocalStorage(); 
+        setIntoLocalStorage(); 
+        clearInfoPanelValue();
+            i = 0;
+        setTimeout(() => {
+            setInfoPanelValue();
+        }, fastInterval);
     }, fastInterval);
-    clearInfoPanelValue();
-        i = 0;
-    setTimeout(() => {
-        setInfoPanelValue();
-    }, fastInterval);
+}, fastInterval);
 })
 
 // Randomize seconds
