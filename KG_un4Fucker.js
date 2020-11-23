@@ -279,10 +279,12 @@ triggerOnce = false;
     } else {
         i = 0;
         clearInfoPanelValue();
-        initialize();
-        beep();
-        spliceFromLocalStorage();
-        setInfoPanelValue();
+        setTimeout(() => {
+            initialize();
+            beep();
+            spliceFromLocalStorage();
+            setInfoPanelValue();
+        }, ultraSlowInterval*2);
     }
 }
 
