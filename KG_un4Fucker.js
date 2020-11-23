@@ -117,7 +117,36 @@ function prepareFromLocalStorage() {
     sentence = sentences[Math.floor(Math.random() * sentences.length)];
 }
 
+// Proverbs section Start
+async function setProverb() {
+    var proverbsAccumulation;
+    var proverb;
+    
+    var url = 'https://raw.githubusercontent.com/VimiummuimiV/un4Fucker/main/Proverbs.txt';
+    var response = await fetch(url);
+    var data = await response.text();
+    var array = data.split("\n");
+    
+    if (localStorage.proverbs == undefined || localStorage.proverbs == "undefined" || localStorage.proverbs.length < 10) {
+        localStorage.setItem("proverbs", JSON.stringify(array));
+        proverbsAccumulation = JSON.parse(localStorage.getItem("proverbs"));
+        proverb = proverbsAccumulation.splice(Math.floor(Math.random() * proverbsAccumulation.length), 1)[0];
+        localStorage.setItem("proverbs", JSON.stringify(proverbsAccumulation));
+    } else {
+        proverbsAccumulation = JSON.parse(localStorage.getItem("proverbs"));
+        proverb = proverbsAccumulation[Math.floor(Math.random() * proverbsAccumulation.length)];
+    }
+    setTimeout(() => {
+        beep();
+        document.querySelector('.text').value = `Пословица: ${proverb}`; 
+        document.querySelector('.send').click();
+        console.log(`${proverbsAccumulation.length} proverbs left.`)
+    }, ultraSlowInterval*2);
+}
+// Proverbs section End
+
 // Get data from github
+
 async function getData() {
     var url = 'https://raw.githubusercontent.com/VimiummuimiV/TXT_FILES/main/KG_Sentences.txt';
     var response = await fetch(url);
@@ -270,7 +299,7 @@ maxMessages = document.querySelectorAll('.messages-content div p').length + gene
 triggerOnce = false;
     // Poster
     if (/* un4given not */ document.querySelector('.userlist-content .user111001') == null || /* danieli is */ document.querySelector('.userlist-content .user474104')) {
-        // Do nothing
+        setProverb();
     } else if (localStorage.sentences.valueOf() == '[]') {
         localStorage.removeItem("sentences");
         setTimeout(() => {
