@@ -306,13 +306,13 @@ triggerOnce = false;
             reloadPage();
         }, slowInterval);
     } else {
-        i = 0;
-        clearInfoPanelValue();
+            i = 0;
+            clearInfoPanelValue();
+            spliceFromLocalStorage();
+            setInfoPanelValue();
         setTimeout(() => {
             initialize();
             beep();
-            spliceFromLocalStorage();
-            setInfoPanelValue();
         }, ultraSlowInterval*2);
     }
 }
