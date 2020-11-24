@@ -14,7 +14,7 @@ var sentence = "Empty";
 var sentences = "...";
 // Random
 var minCnt = 25;
-var maxCnt = 30;
+var maxCnt = 35;
 // Intervals
 var fastInterval = 1000;
 var middleInterval = 2000;
