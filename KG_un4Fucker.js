@@ -21,7 +21,7 @@ var middleInterval = 2000;
 var slowInterval = 3000;
 var ultraSlowInterval = 5000;
 // Default start max messages value
-var maxMessages = 25;
+var maxMessages = 45;
 // Global constant variables for chat text input and send button
 var field = document.querySelector('.text');
 var inject = document.querySelector('.send');
