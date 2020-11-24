@@ -141,7 +141,7 @@ async function setProverb() {
     setTimeout(() => {
         beep();
         injectProverb();
-    }, ultraSlowInterval*4);
+    }, ultraSlowInterval*2);
 }
 
 function injectProverb() {
@@ -326,7 +326,6 @@ triggerOnce = false;
             clearInfoPanelValue();
             spliceFromLocalStorage();
             setInfoPanelValue();
-            setProverb(); 
         }, ultraSlowInterval*2);
     }
 }
