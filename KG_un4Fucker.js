@@ -21,7 +21,7 @@ var middleInterval = 2000;
 var slowInterval = 3000;
 var ultraSlowInterval = 5000;
 // Default start max messages value
-var maxMessages = 45;
+var maxMessages = 25;
 // Global constant variables for chat text input and send button
 var field = document.querySelector('.text');
 var inject = document.querySelector('.send');
@@ -118,9 +118,10 @@ function prepareFromLocalStorage() {
 }
 
 // Proverbs section Start
+var proverbsAccumulation;
+var proverb;
+
 async function setProverb() {
-    var proverbsAccumulation;
-    var proverb;
     
     if (localStorage.proverbs == undefined || localStorage.proverbs == "undefined" || localStorage.proverbs.length < 10) {
         var url = 'https://raw.githubusercontent.com/VimiummuimiV/un4Fucker/main/Proverbs.txt';
@@ -139,10 +140,22 @@ async function setProverb() {
     }
     setTimeout(() => {
         beep();
+        injectProverb();
+    }, ultraSlowInterval*4);
+}
+
+function injectProverb() {
+    if (document.querySelector('.text').value.length > 0) {
+        var backup = document.querySelector('.text').value;
+        document.querySelector('.text').value = `Пословица: ${proverb}`; 
+        document.querySelector('.send').click();
+        field.value = backup;
+        console.log(`${proverbsAccumulation.length} proverbs left.`)
+    } else {
         document.querySelector('.text').value = `Пословица: ${proverb}`; 
         document.querySelector('.send').click();
         console.log(`${proverbsAccumulation.length} proverbs left.`)
-    }, ultraSlowInterval*2);
+    }
 }
 // Proverbs section End
 
@@ -313,6 +326,7 @@ triggerOnce = false;
             clearInfoPanelValue();
             spliceFromLocalStorage();
             setInfoPanelValue();
+            setProverb(); 
         }, ultraSlowInterval*2);
     }
 }
