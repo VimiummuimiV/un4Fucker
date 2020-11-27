@@ -236,7 +236,8 @@ var indicator = chatPanel.appendChild(document.createElement('p'));
 
 // Generate new random range interval number by double click on digital indicator
 indicator.addEventListener('dblclick', function() {
-    maxMessages = document.querySelectorAll('.messages-content div p').length + generateRandomInterval(minCnt, maxCnt);
+    minCnt = prompt('Minimal sentences interval', '25');
+    maxCnt = prompt('Maximum sentences interval', '35');
 })
 
 // Info panel
