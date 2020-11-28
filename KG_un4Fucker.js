@@ -148,12 +148,12 @@ async function setProverb() {
 function injectProverb() {
     if (document.querySelector('.text').value.length > 0) {
         var backup = document.querySelector('.text').value;
-        document.querySelector('.text').value = `Пословица: ${proverb}`; 
+        document.querySelector('.text').value = `Пословица: «${proverb}»`; 
         document.querySelector('.send').click();
         field.value = backup;
         console.log(`${proverbsAccumulation.length} proverbs left.`)
     } else {
-        document.querySelector('.text').value = `Пословица: ${proverb}`; 
+        document.querySelector('.text').value = `Пословица: «${proverb}»`; 
         document.querySelector('.send').click();
         console.log(`${proverbsAccumulation.length} proverbs left.`)
     }
