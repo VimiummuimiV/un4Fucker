@@ -91,7 +91,10 @@ function getRandomNickname() {
         "Патлатый_Чухан",
         "Патлатый_Нарушитель",
         "Патлатый_Рецидивист",
-        "Патлатый_Балабол"
+        "Патлатый_Балабол",
+        "Патлатый_Наглец",
+        "Патлатый_Непотреб",
+        "Патлатый_Негодяй"
     ];
     var nickname = nicknames[Math.floor(Math.random() * nicknames.length)];
     return nickname;
