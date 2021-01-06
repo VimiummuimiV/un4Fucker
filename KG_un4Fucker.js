@@ -94,7 +94,8 @@ function getRandomNickname() {
         "Патлатый_Балабол",
         "Патлатый_Наглец",
         "Патлатый_Непотреб",
-        "Патлатый_Негодяй"
+        "Патлатый_Негодяй",
+        "Патлатый_Вычернец"
     ];
     var nickname = nicknames[Math.floor(Math.random() * nicknames.length)];
     return nickname;
@@ -173,8 +174,11 @@ async function getData() {
 
 // Inject sentence in chat
 function injectMessage() {
-    field.value = `${getRandomNickname()}, ${sentence}`;
-    inject.click();
+    var accumulate = `${getRandomNickname()}, ${sentence}`;
+    if (accumulate.length + 1 < 300) {
+        field.value = accumulate;
+        inject.click();
+    }
 }
 
 // Keep original message
